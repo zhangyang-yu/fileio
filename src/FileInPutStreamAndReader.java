@@ -15,7 +15,8 @@ public class FileInPutStreamAndReader {
 //        fileWriter(s,file);
        // fileOutputStream();
        // BufferedInOutputStream();
-        BufferedReaderWrite();
+     //   BufferedReaderWrite();
+        inputStreamReaderAndWrite();
     }
 
     /**
@@ -196,6 +197,10 @@ public class FileInPutStreamAndReader {
         System.out.println ("使用时间:"+l);
 
     }
+
+    /**
+     * 字符输入输出缓冲流
+     */
     private  static  void  BufferedReaderWrite()
     {
         File file = new File ("D://trs/cpec-api/log/info/api-info.log");
@@ -240,5 +245,62 @@ public class FileInPutStreamAndReader {
         long end=System.currentTimeMillis ();
         long l = end - start;
         System.out.println ("需要时间: "+l);
+    }
+
+    /**
+     * 字节字符转换流
+     */
+    private  static  void inputStreamReaderAndWrite()
+    {
+        File file = new File ("D://trs/cpec-api/log/info/api-info.log");
+        File fileCp = new File ("D://trs/cpec-api/log/info/api-info-4.log");
+        FileInputStream fileInputStream = null;
+        FileOutputStream fileOutputStream = null;
+        InputStreamReader inputStreamReader = null;
+        OutputStreamWriter outputStreamWriter = null;
+        try {
+            fileInputStream = new FileInputStream (file);
+            fileOutputStream = new FileOutputStream (fileCp);
+            inputStreamReader = new InputStreamReader (fileInputStream);
+            outputStreamWriter = new OutputStreamWriter (fileOutputStream);
+            char[] ch=new char[1024];
+            int len=0;
+            while ((len=inputStreamReader.read (ch))!=-1)
+            {
+                outputStreamWriter.write (ch,0,len);
+            }
+            outputStreamWriter.flush ();
+        } catch (Exception e) {
+            e.printStackTrace ();
+        }finally {
+            if(inputStreamReader!=null){
+                try {
+                    inputStreamReader.close ();
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+            }if(outputStreamWriter!=null)
+            {
+                try {
+                    outputStreamWriter.close ();
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+            }if(fileInputStream!=null)
+            {
+                try {
+                    fileInputStream.close ();
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+            }if(fileOutputStream!=null)
+            {
+                try {
+                    fileOutputStream.close ();
+                } catch (IOException e) {
+                    e.printStackTrace ();
+                }
+            }
+        }
     }
 }
